@@ -7,5 +7,9 @@ including all optional exercises. The lecture was used at
 
 Note this project is managed using [stack](https://www.fpcomplete.com/blog/2015/06/why-is-stack-not-cabal) - the new build tool for Haskell projects.
 
-##To build
-Just do `stack build`
+##Usage
+Just do `stack build` to build the whole lot.
+
+In order to run/use individual parts, please read the [homework
+assignments](https://www.seas.upenn.edu/~cis194/spring13/lectures.html)
+and see how each part is used.
