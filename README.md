@@ -1,7 +1,7 @@
 # Solutions to assignment exercises from the "CIS 194: Introduction to Haskell (Spring 2013)" course
 
 My solutions to the assignments from the
-["Introduction to Hasakell" lecture](https://www.seas.upenn.edu/~cis194/spring13)
+["Introduction to Haskell" lecture](https://www.seas.upenn.edu/~cis194/spring13)
 including all optional exercises. The lecture was used at 
 [University of Pennsylvania | School of Engineering and Applied Science](https://www.seas.upenn.edu/) in the Spring 2013 semester.
 
