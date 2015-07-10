@@ -1,4 +1,4 @@
-module HW4 where
+module HW04.HW4 where
 
 import Data.Monoid (Product(..), getProduct)
 import Data.List (sort, (\\))

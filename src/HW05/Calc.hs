@@ -1,10 +1,10 @@
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances #-}
 
-module Calc where
+module HW05.Calc where
 
-import ExprT
-import Parser
-import qualified StackVM as VM
+import HW05.ExprT
+import HW05.Parser
+import qualified HW05.StackVM as VM
 import qualified Data.Map as M
 
 -- ex1

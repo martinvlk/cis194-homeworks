@@ -1,4 +1,4 @@
-module Hanoi where
+module HW01.Hanoi where
 
 import qualified Data.Map as HM
 import qualified Data.Maybe as M

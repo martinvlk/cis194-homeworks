@@ -1,6 +1,6 @@
 -- https://www.seas.upenn.edu/~cis194/spring13/hw/01-intro.pdf
 
-module HW1 where
+module HW01.HW1 where
 
 -- Validating Credit Card Numbers
 

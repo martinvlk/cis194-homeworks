@@ -1,4 +1,4 @@
-module StackVM (StackVal(..), StackExp(..), Stack, Program, stackVM) where
+module HW05.StackVM (StackVal(..), StackExp(..), Stack, Program, stackVM) where
 
 -- Values that may appear in the stack. Such a value will also be
 -- returned by the stackVM program execution function.

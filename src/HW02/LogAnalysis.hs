@@ -1,6 +1,6 @@
-module LogAnalysis where
+module HW02.LogAnalysis where
 
-import Log
+import HW02.Log
 import Text.ParserCombinators.Parsec
 import Data.Maybe          (fromMaybe)
 import Text.Read           (readMaybe)

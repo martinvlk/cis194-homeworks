@@ -1,7 +1,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# OPTIONS_GHC -fno-warn-missing-methods #-}
 
-module Fibonacci where
+module HW06.Fibonacci where
 
 -- ex1
 fib :: Integer -> Integer

@@ -18,8 +18,10 @@ cabal-version:       >=1.10
 
 executable cis194-homeworks
   main-is:             Main.hs
-  other-modules:       Hanoi HW1 LogAnalysis Log Golf HW4 ExprT Parser Calc StackVM
-                       Fibonacci
+  other-modules:       HW01.Hanoi HW01.HW1 HW02.LogAnalysis HW02.Log HW03.Golf
+                       HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
+                       HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
+                       HW07.StringBufEditor HW07.StringBuffer
   -- other-extensions:    
   build-depends:       base >=4.8 && <4.9, containers, parsec
   hs-source-dirs:      src
