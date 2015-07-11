@@ -6,6 +6,7 @@ import HW05.ExprT
 import HW05.Parser
 import qualified HW05.StackVM as VM
 import qualified Data.Map as M
+import Control.Applicative
 
 -- ex1
 eval :: ExprT -> Integer

@@ -4,6 +4,7 @@ import HW02.Log
 import Text.ParserCombinators.Parsec
 import Data.Maybe          (fromMaybe)
 import Text.Read           (readMaybe)
+import Control.Applicative (pure, (<*>), (<$>))
 
 tStampAndMessage :: Parser (TimeStamp, String)
 tStampAndMessage = do tstamp <- many1 digit

@@ -36,12 +36,12 @@ instance Monoid Stream where
   mappend =
 -}
 
-instance Foldable Stream where
   {- there is no base case - streams are infinite
    - ...well it means Foldable instance doesn't make sense for Stream...
    - because it never produces the final answer
-   -}
+instance Foldable Stream where
   foldr f base ~(x:::s) = f x (foldr f base s)
+   -}
 
 -- ex4
 streamRepeat :: a -> Stream a

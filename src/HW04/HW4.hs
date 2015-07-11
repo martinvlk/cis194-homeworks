@@ -2,6 +2,7 @@ module HW04.HW4 where
 
 import Data.Monoid (Product(..), getProduct)
 import Data.List (sort, (\\))
+import Data.Foldable (foldMap)
 --import Debug.Trace (trace)
 
 -- ex11
