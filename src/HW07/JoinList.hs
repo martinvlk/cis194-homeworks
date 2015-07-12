@@ -57,7 +57,11 @@ tag (Append m _ _) = m
 
 -- ex2
 indexJ :: (Sized b, Monoid b) => Int -> JoinList b a -> Maybe a
-indexJ a b = Nothing
+indexJ i Empty = Nothing
+indexJ i jl@(Single m a) | (getSize . size) m == i = Just a
+                         | otherwise               = Nothing
+indexJ i (Append _ jl1 jl2) | (getSize . size) (tag jl1) > i = indexJ i jl1
+                            | otherwise                      = indexJ i jl1
 
 (!!?) :: [a] -> Int -> Maybe a
 [] !!? _        = Nothing

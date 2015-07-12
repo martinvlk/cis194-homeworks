@@ -35,8 +35,8 @@ prop_indexJ i jl = (indexJ i jl) == (jlToList jl !!? i)
 
 instance Arbitrary (JoinList Size Int) where
   arbitrary = oneof [pure Empty,
-                     Single <$> arbitrary <*> arbitrary,
-                     Append <$> arbitrary <*> arbitrary <*> arbitrary]
+                     Single (Size 1) <$> arbitrary,
+                     (+++) <$> arbitrary <*> arbitrary]
 
 instance Arbitrary Size where
     arbitrary = Size <$> arbitrary
