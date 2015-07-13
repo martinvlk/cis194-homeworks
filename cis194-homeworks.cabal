@@ -29,7 +29,7 @@ executable cis194-homeworks
   ghc-options:     -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
 --                   -rtsopts
 
-test-suite MainT
+test-suite HW07
   type:            exitcode-stdio-1.0
   main-is:         MainT.hs
   x-uses-tf:       true
@@ -42,7 +42,7 @@ test-suite MainT
                    containers, parsec, mtl
   ghc-options:     -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
 --                   -rtsopts
-  hs-source-dirs:  tests, src
+  hs-source-dirs:  tests/HW07, src
   -- The following lines trigger a bug in Hackage.  Uncommment for compilation on GHC 6.
   -- if impl(ghc >= 7.0.0)
   --      default-language: Haskell2010

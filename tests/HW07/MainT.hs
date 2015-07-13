@@ -2,7 +2,6 @@
 
 module Main where
 
-import Data.Monoid
 import Control.Applicative ((<$>), (<*>), pure)
 
 import Test.HUnit
@@ -19,19 +18,28 @@ main = TF.defaultMain tests
 
 tests :: [TF.Test]
 tests = [ testGroup "QuickCheck HW07" [
-              testProperty "indexJ" prop_indexJ
+              testProperty "indexJ" prop_indexJ,
+              testProperty "dropJ" prop_dropJ,
+              testProperty "takeJ" prop_takeJ
               ],
           testGroup "HUnit HW07" [
             t1
             ]
         ]
 
+t1 :: TF.Test
 t1 = testCase "indexJ" (indexJ i jl @=? jlToList jl !!? i)
   where i = 3
-        jl = Append (Size 0) (Single (Size 1) 1) (Append (Size 1) (Append (Size 1) Empty (Single (Size 2) 2)) (Single (Size 2) 5))
+        jl = (Append (Size 0) (Single (Size 1) 1) (Append (Size 1) (Append (Size 1) Empty (Single (Size 2) 2)) (Single (Size 2) 5)))::JoinList Size Int
 
 prop_indexJ :: Int -> (JoinList Size Int) -> Bool
 prop_indexJ i jl = (indexJ i jl) == (jlToList jl !!? i)
+
+prop_dropJ :: Int -> (JoinList Size Int) -> Bool
+prop_dropJ n jl = jlToList (dropJ n jl) == drop n (jlToList jl)
+
+prop_takeJ :: Int -> (JoinList Size Int) -> Bool
+prop_takeJ n jl = jlToList (takeJ n jl) == take n (jlToList jl)
 
 instance Arbitrary (JoinList Size Int) where
   arbitrary = oneof [pure Empty,
