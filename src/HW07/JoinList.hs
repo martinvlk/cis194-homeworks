@@ -1,10 +1,15 @@
+{-# LANGUAGE FlexibleInstances, TypeSynonymInstances #-}
+
 module HW07.JoinList where
 
-import HW07.Sized
---import HW07.Scrabble
---import HW07.Buffer
-
 import Data.Monoid
+--import Control.Applicative ((<*>))
+--import Data.List (intercalate)
+
+import HW07.Sized
+import HW07.Scrabble
+import HW07.Buffer
+import HW07.Editor
 
 newtype And = And Bool
   deriving (Eq, Ord, Show)
@@ -82,6 +87,7 @@ indexJ i (Append s jl1 jl2)
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ _ Empty = Empty
+dropJ n _ | n < 0 = Empty
 dropJ n jl@(Single s _)
   | (getSize . size $ s) > n = jl
   | otherwise                = Empty
@@ -102,3 +108,61 @@ takeJ n jl@(Append s jl1 jl2)
   | otherwise  = jl1 +++ takeJ (n-jl1sze) jl2
   where jl1sze = sze $ tag jl1
         sze    = getSize . size
+
+-- ex3
+scoreLine :: String -> JoinList Score String
+scoreLine s = Single (scoreString s) s
+
+-- ex4
+{-
+Cases for endings
+
+last line, no eol
+text
+tranlsates to 
+
+last line + eol
+text\n
+
+just eol, or more
+\n
+\n\n\n\n
+-}
+
+nl :: String
+nl = "\n"
+
+dta2str :: JoinList a String -> String
+dta2str Empty = mempty
+dta2str (Single _ d) = d
+dta2str (Append _ Empty d2) = dta2str d2
+dta2str (Append _ d1 Empty) = dta2str d1
+dta2str (Append _ d1 d2) = concat [dta2str d1, nl, dta2str d2]
+
+str2dta :: String -> JoinList (Score, Size) String
+str2dta s = ap . map (\x -> Single (scoreString x, Size 1) x) . lines $ s
+  where ap [] = Empty
+        ap (l:ls) = l +++ ap ls
+
+instance Buffer (JoinList (Score, Size) String) where
+  toString = dta2str
+
+  fromString = str2dta
+
+  line n jl = let v = (takeJ 1 . dropJ n) $ jl in case v of
+    Empty -> Nothing
+    jl'   -> Just $ toString jl'
+
+  replaceLine n s jl = takeJ n jl +++ fromString s +++ dropJ (n+1) jl
+
+  numLines jl = getSize . snd . tag $ jl
+
+  value jl = getScore . fst . tag $ jl
+
+main :: IO ()
+main = runEditor editor (((fromString . unlines)
+         [ "This buffer is for notes you don't want to save, and for"
+         , "evaluation of steam valve coefficients."
+         , "To load a different file, type the character L followed"
+         , "by the name of the file."
+         ])::JoinList (Score, Size) String)
