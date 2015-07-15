@@ -32,6 +32,10 @@ executable cis194-homeworks
 test-suite HW07
   type:            exitcode-stdio-1.0
   main-is:         MainT.hs
+  other-modules:       HW01.Hanoi HW01.HW1 HW02.LogAnalysis HW02.Log HW03.Golf
+                       HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
+                       HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
+                       HW07.StringBufEditor HW07.StringBuffer
   x-uses-tf:       true
   build-depends:   base >= 4 && < 5,
                    HUnit >= 1.2 && < 2,
