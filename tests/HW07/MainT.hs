@@ -37,9 +37,6 @@ instance Arbitrary (JoinList Size Int) where
                      Single (Size 1) <$> arbitrary,
                      (+++) <$> arbitrary <*> arbitrary]
 
-instance Arbitrary Size where
-    arbitrary = Size <$> arbitrary
-
 prop_indexJ :: Int -> (JoinList Size Int) -> Bool
 prop_indexJ i jl = (indexJ i jl) == (jlToList jl !!? i)
 
@@ -50,4 +47,4 @@ prop_takeJ :: Int -> (JoinList Size Int) -> Bool
 prop_takeJ n jl = jlToList (takeJ n jl) == take n (jlToList jl)
 
 prop_toFromString s = toString (fromString s:: (JoinList (Score, Size) String))
-                      == s
+                                  == s

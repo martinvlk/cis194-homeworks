@@ -87,7 +87,7 @@ indexJ i (Append s jl1 jl2)
 
 dropJ :: (Sized b, Monoid b) => Int -> JoinList b a -> JoinList b a
 dropJ _ Empty = Empty
-dropJ n _ | n < 0 = Empty
+dropJ n jl | n < 0 = jl
 dropJ n jl@(Single s _)
   | (getSize . size $ s) > n = jl
   | otherwise                = Empty
@@ -114,49 +114,20 @@ scoreLine :: String -> JoinList Score String
 scoreLine s = Single (scoreString s) s
 
 -- ex4
-{-
-Cases for endings
-
-last line, no eol
-text
-tranlsates to 
-
-last line + eol
-text\n
-
-just eol, or more
-\n
-\n\n\n\n
--}
-
-nl :: String
-nl = "\n"
-
-dta2str :: JoinList a String -> String
-dta2str Empty = mempty
-dta2str (Single _ d) = d
-dta2str (Append _ Empty d2) = dta2str d2
-dta2str (Append _ d1 Empty) = dta2str d1
-dta2str (Append _ d1 d2) = concat [dta2str d1, nl, dta2str d2]
-
-str2dta :: String -> JoinList (Score, Size) String
-str2dta s = ap . map (\x -> Single (scoreString x, Size 1) x) . lines $ s
-  where ap [] = Empty
-        ap (l:ls) = l +++ ap ls
-
 instance Buffer (JoinList (Score, Size) String) where
-  toString = dta2str
-
-  fromString = str2dta
-
+  toString Empty = mempty
+  toString (Single _ d) = d
+  toString (Append _ Empty d2) = toString d2
+  toString (Append _ d1 Empty) = toString d1
+  toString (Append _ d1 d2) = concat [toString d1, "\n", toString d2]
+  fromString = ap . map (\x -> Single (scoreString x, Size 1) x) . lines
+    where ap [] = Empty
+          ap (l:ls) = l +++ ap ls
   line n jl = let v = (takeJ 1 . dropJ n) $ jl in case v of
     Empty -> Nothing
     jl'   -> Just $ toString jl'
-
   replaceLine n s jl = takeJ n jl +++ fromString s +++ dropJ (n+1) jl
-
   numLines jl = getSize . snd . tag $ jl
-
   value jl = getScore . fst . tag $ jl
 
 main :: IO ()
