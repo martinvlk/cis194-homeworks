@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances, TypeSynonymInstances #-}
+{-# OPTIONS_GHC -fno-warn-orphans #-}
 
 module HW07.JoinList where
 

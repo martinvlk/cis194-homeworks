@@ -21,7 +21,8 @@ executable cis194-homeworks
   other-modules:       HW01.Hanoi HW01.HW1 HW02.LogAnalysis HW02.Log HW03.Golf
                        HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
                        HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
-                       HW07.StringBufEditor HW07.StringBuffer
+                       HW07.StringBufEditor HW07.StringBuffer HW08.Employee
+                       HW08.Party
   -- other-extensions:    
   build-depends:       base, containers, parsec, mtl
   hs-source-dirs:      src
@@ -32,9 +33,7 @@ executable cis194-homeworks
 test-suite HW07
   type:            exitcode-stdio-1.0
   main-is:         MainT.hs
-  other-modules:       HW01.Hanoi HW01.HW1 HW02.LogAnalysis HW02.Log HW03.Golf
-                       HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
-                       HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
+  other-modules:       HW07.Buffer HW07.Editor HW07.Sized
                        HW07.StringBufEditor HW07.StringBuffer
   x-uses-tf:       true
   build-depends:   base >= 4 && < 5,
@@ -45,9 +44,20 @@ test-suite HW07
                    test-framework-hunit,
                    containers, parsec, mtl
   ghc-options:     -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
---                   -rtsopts
   hs-source-dirs:  tests/HW07, src
-  -- The following lines trigger a bug in Hackage.  Uncommment for compilation on GHC 6.
-  -- if impl(ghc >= 7.0.0)
-  --      default-language: Haskell2010
+  default-language: Haskell2010
+
+test-suite HW08
+  type:            exitcode-stdio-1.0
+  main-is:         MainT.hs
+  other-modules:   HW08.Employee HW08.Party
+  x-uses-tf:       true
+  build-depends:   base >= 4 && < 5,
+                   HUnit >= 1.2 && < 2,
+                   QuickCheck >= 2.5,
+                   test-framework >= 0.4.1,
+                   test-framework-quickcheck2,
+                   test-framework-hunit, containers
+  ghc-options:     -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
+  hs-source-dirs:  tests/HW08, src
   default-language: Haskell2010
