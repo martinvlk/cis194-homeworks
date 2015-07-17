@@ -21,8 +21,13 @@ moreFun :: (GuestList, GuestList) -> GuestList
 moreFun = uncurry max
 
 -- ex2
-treeFold :: (Tree a -> [b] -> b) -> Tree a -> b
-treeFold f n@(Node _ ns) = f n $ map (treeFold f) ns
+treeFold :: (a -> [b] -> b) -> Tree a -> b
+treeFold f (Node v ns) = f v $ map (treeFold f) ns
+
+-- alternative version of fold, not usable for this exercise,
+-- but is closer to standard fold.
+treeFold' :: (a -> b -> b) -> b -> Tree a -> b
+treeFold' f base (Node v ns) = f v $ foldr (flip (treeFold' f)) base ns
 
 -- ex3
 nextLevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
@@ -31,7 +36,7 @@ nextLevel e gls = ((e `glCons`) . mconcat . map snd $ gls,
 
 -- ex4
 maxFun :: Tree Employee -> GuestList
-maxFun = moreFun . treeFold (nextLevel . rootLabel)
+maxFun = moreFun . treeFold nextLevel
 
 -- ex5
 instance Show GuestList where
@@ -40,3 +45,8 @@ instance Show GuestList where
 
 main :: IO ()
 main = readFile "src/HW08/company.txt" >>= print . maxFun . read
+
+{-
+treeFold (\n acc->sum acc + (empFun. rootLabel $ n))
+treeFold (\n acc->concat acc ++ (empName . rootLabel $ n))
+-}
