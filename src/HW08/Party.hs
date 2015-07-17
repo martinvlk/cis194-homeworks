@@ -17,21 +17,21 @@ instance Monoid GuestList where
   mappend (GL es1 fun1)
           (GL es2 fun2) = GL (es1 <> es2) (fun1 + fun2)
 
-moreFun :: GuestList -> GuestList -> GuestList
-moreFun = max
+moreFun :: (GuestList, GuestList) -> GuestList
+moreFun = uncurry max
 
 -- ex2
-treeFold :: (Tree a -> [b] -> b) -> [b] -> Tree a -> b
-treeFold f base n@(Node _ ns) = f n (map (treeFold f base) ns)
+treeFold :: (Tree a -> [b] -> b) -> Tree a -> b
+treeFold f n@(Node _ ns) = f n $ map (treeFold f) ns
 
 -- ex3
 nextLevel :: Employee -> [(GuestList, GuestList)] -> (GuestList, GuestList)
 nextLevel e gls = ((e `glCons`) . mconcat . map snd $ gls,
-                                  mconcat . map fst $ gls)
+                                  mconcat . map moreFun $ gls)
 
 -- ex4
 maxFun :: Tree Employee -> GuestList
-maxFun = uncurry moreFun . treeFold (nextLevel . rootLabel) []
+maxFun = moreFun . treeFold (nextLevel . rootLabel)
 
 -- ex5
 instance Show GuestList where
