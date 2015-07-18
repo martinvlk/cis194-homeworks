@@ -82,7 +82,14 @@ abParser :: Parser (Char, Char)
 abParser = (,) <$> char 'a' <*> char 'b'
 
 abParser_ :: Parser ()
-abParser_ = (\_ _->()) <$> char 'a' <*> char 'b'
+abParser_ = const () <$> abParser
 
 intPair :: Parser [Integer]
-intPair = (\n1 _ n2->[n1, n2]) <$> posInt <*> char ' ' <*> posInt
+intPair = (\n1 n2->[n1, n2]) <$> posInt <* char ' ' <*> posInt
+
+-- ex4
+instance Alternative Parser where
+  empty = Parser $ const Nothing
+  (Parser rp1) <|> (Parser rp2) = Parser $ \s -> rp1 s <|> rp2 s
+
+-- ex5
