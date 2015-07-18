@@ -1,6 +1,6 @@
 {-# LANGUAGE FlexibleInstances #-}
 
-module Main where
+module HW07.Main where
 
 import Control.Applicative ((<$>), (<*>), pure)
 
@@ -22,8 +22,8 @@ tests :: [TF.Test]
 tests = [ testGroup "QuickCheck HW07" [
               testProperty "indexJ" prop_indexJ,
               testProperty "dropJ" prop_dropJ,
-              testProperty "takeJ" prop_takeJ
---              testProperty "toFromString" prop_toFromString
+              testProperty "takeJ" prop_takeJ,
+              testProperty "toFromString" prop_toFromString
               ],
           testGroup "HUnit HW07" [
 {-            let i = 3
@@ -46,6 +46,5 @@ prop_dropJ n jl = jlToList (dropJ n jl) == drop n (jlToList jl)
 prop_takeJ :: Int -> (JoinList Size Int) -> Bool
 prop_takeJ n jl = jlToList (takeJ n jl) == take n (jlToList jl)
 
-prop_toFromString s = toString (fromString s:: (JoinList (Score, Size) String))
-                                  == {-stripLastLineEnd -}s
---  where stripLastLineEnd = reverse . bool id tail . (\s->if head s=='\n') . reverse
+prop_toFromString s = not (null s) && last s /= '\n' ==>
+                      toString (fromString s::ScoreSizeList) == s

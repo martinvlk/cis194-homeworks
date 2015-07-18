@@ -22,7 +22,7 @@ executable cis194-homeworks
                        HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
                        HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
                        HW07.StringBufEditor HW07.StringBuffer HW08.Employee
-                       HW08.Party
+                       HW08.Party HW10.AParser
   -- other-extensions:    
   build-depends:       base, containers, parsec, mtl
   hs-source-dirs:      src

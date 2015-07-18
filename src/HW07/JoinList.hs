@@ -4,9 +4,6 @@
 module HW07.JoinList where
 
 import Data.Monoid
-import Data.Foldable (foldMap)
---import Control.Applicative ((<*>))
---import Data.List (intercalate)
 
 import HW07.Sized
 import HW07.Scrabble
@@ -116,21 +113,27 @@ scoreLine :: String -> JoinList Score String
 scoreLine s = Single (scoreString s) s
 
 -- ex4
-instance Monoid (JoinList (Score, Size) String) where
-  mempty = Empty
-  mappend = (+++)
+type ScoreSizeList = JoinList (Score, Size) String
 
-instance Buffer (JoinList (Score, Size) String) where
+instance Buffer ScoreSizeList where
   toString Empty = mempty
   toString (Single _ d) = d
   toString (Append _ Empty d2) = toString d2
   toString (Append _ d1 Empty) = toString d1
   toString (Append _ d1 d2) = concat [toString d1, "\n", toString d2]
-  fromString = foldMap (\x -> Single (scoreString x, Size 1) x) . lines
+
+  -- use halving strategy so that we end up with a balanced tree
+  fromString = list2Jl . lines
+    where list2Jl [] = Empty
+          list2Jl [l] = Single (scoreString l, Size 1) l
+          list2Jl ls = list2Jl h1 +++ list2Jl h2
+            where (h1, h2) = splitAt (length ls `div` 2) ls
+
   line n jl | n < 0 = Nothing
             | otherwise = let v = (takeJ 1 . dropJ n) $ jl in case v of
               Empty -> Nothing
               jl'   -> Just $ toString jl'
+
   replaceLine n s jl = takeJ n jl +++ fromString s +++ dropJ (n+1) jl
   numLines jl = getSize . snd . tag $ jl
   value jl = getScore . fst . tag $ jl
@@ -141,4 +144,4 @@ main = runEditor editor (((fromString . unlines)
          , "evaluation of steam valve coefficients."
          , "To load a different file, type the character L followed"
          , "by the name of the file."
-         ])::JoinList (Score, Size) String)
+         ])::ScoreSizeList)
