@@ -93,3 +93,6 @@ instance Alternative Parser where
   (Parser rp1) <|> (Parser rp2) = Parser $ \s -> rp1 s <|> rp2 s
 
 -- ex5
+intOrUppercase :: Parser ()
+intOrUppercase = const () <$> posInt <|>
+                 const () <$> satisfy isUpper
