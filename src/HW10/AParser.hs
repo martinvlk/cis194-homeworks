@@ -1,3 +1,5 @@
+{-# LANGUAGE TupleSections #-}
+
 {- CIS 194 HW 10
    due Monday, 1 April
 -}
@@ -69,7 +71,7 @@ instance Functor Parser where
 -- ex2
 
 instance Applicative Parser where
-  pure a = Parser $ \s -> Just (a, s)
+  pure a = Parser $ Just . (a,)
   (Parser rp1) <*> (Parser rp2) = Parser $ \s -> case rp1 s of
     Nothing -> Nothing
     Just (f, rest) -> fmap (first f) . rp2 $ rest
@@ -78,3 +80,9 @@ instance Applicative Parser where
 
 abParser :: Parser (Char, Char)
 abParser = (,) <$> char 'a' <*> char 'b'
+
+abParser_ :: Parser ()
+abParser_ = (\_ _->()) <$> char 'a' <*> char 'b'
+
+intPair :: Parser [Integer]
+intPair = (\n1 _ n2->[n1, n2]) <$> posInt <*> char ' ' <*> posInt
