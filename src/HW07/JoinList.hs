@@ -126,7 +126,6 @@ instance Buffer (JoinList (Score, Size) String) where
   toString (Append _ Empty d2) = toString d2
   toString (Append _ d1 Empty) = toString d1
   toString (Append _ d1 d2) = concat [toString d1, "\n", toString d2]
---  fromString = foldr (+++) Empty . map (\x -> Single (scoreString x, Size 1) x) . lines
   fromString = foldMap (\x -> Single (scoreString x, Size 1) x) . lines
   line n jl | n < 0 = Nothing
             | otherwise = let v = (takeJ 1 . dropJ n) $ jl in case v of
