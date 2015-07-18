@@ -130,7 +130,7 @@ instance Buffer ScoreSizeList where
             where (h1, h2) = splitAt (length ls `div` 2) ls
 
   line n jl | n < 0 = Nothing
-            | otherwise = let v = (takeJ 1 . dropJ n) $ jl in case v of
+            | otherwise = case (takeJ 1 . dropJ n) $ jl of
               Empty -> Nothing
               jl'   -> Just $ toString jl'
 

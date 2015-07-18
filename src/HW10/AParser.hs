@@ -57,3 +57,24 @@ posInt = Parser f
 ------------------------------------------------------------
 -- Your code goes below here
 ------------------------------------------------------------
+
+-- ex1
+
+first :: (a -> b) -> (a,c) -> (b,c)
+first f (a, c) = (f a, c)
+
+instance Functor Parser where
+  fmap f (Parser rp) = Parser $ fmap (first f) . rp
+
+-- ex2
+
+instance Applicative Parser where
+  pure a = Parser $ \s -> Just (a, s)
+  (Parser rp1) <*> (Parser rp2) = Parser $ \s -> case rp1 s of
+    Nothing -> Nothing
+    Just (f, rest) -> fmap (first f) . rp2 $ rest
+
+-- ex3
+
+abParser :: Parser (Char, Char)
+abParser = (,) <$> char 'a' <*> char 'b'
