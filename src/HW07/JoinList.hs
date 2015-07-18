@@ -4,6 +4,7 @@
 module HW07.JoinList where
 
 import Data.Monoid
+import Data.Foldable (foldMap)
 --import Control.Applicative ((<*>))
 --import Data.List (intercalate)
 
@@ -115,18 +116,22 @@ scoreLine :: String -> JoinList Score String
 scoreLine s = Single (scoreString s) s
 
 -- ex4
+instance Monoid (JoinList (Score, Size) String) where
+  mempty = Empty
+  mappend = (+++)
+
 instance Buffer (JoinList (Score, Size) String) where
   toString Empty = mempty
   toString (Single _ d) = d
   toString (Append _ Empty d2) = toString d2
   toString (Append _ d1 Empty) = toString d1
   toString (Append _ d1 d2) = concat [toString d1, "\n", toString d2]
-  fromString = ap . map (\x -> Single (scoreString x, Size 1) x) . lines
-    where ap [] = Empty
-          ap (l:ls) = l +++ ap ls
-  line n jl = let v = (takeJ 1 . dropJ n) $ jl in case v of
-    Empty -> Nothing
-    jl'   -> Just $ toString jl'
+--  fromString = foldr (+++) Empty . map (\x -> Single (scoreString x, Size 1) x) . lines
+  fromString = foldMap (\x -> Single (scoreString x, Size 1) x) . lines
+  line n jl | n < 0 = Nothing
+            | otherwise = let v = (takeJ 1 . dropJ n) $ jl in case v of
+              Empty -> Nothing
+              jl'   -> Just $ toString jl'
   replaceLine n s jl = takeJ n jl +++ fromString s +++ dropJ (n+1) jl
   numLines jl = getSize . snd . tag $ jl
   value jl = getScore . fst . tag $ jl
