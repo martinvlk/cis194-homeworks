@@ -82,10 +82,10 @@ abParser :: Parser (Char, Char)
 abParser = (,) <$> char 'a' <*> char 'b'
 
 abParser_ :: Parser ()
-abParser_ = const () <$> abParser
+abParser_ = () <$ abParser
 
 intPair :: Parser [Integer]
-intPair = (\n1 n2->[n1, n2]) <$> posInt <* char ' ' <*> posInt
+intPair = (\n1 n2 -> [n1, n2]) <$> posInt <* char ' ' <*> posInt
 
 -- ex4
 instance Alternative Parser where
@@ -94,5 +94,5 @@ instance Alternative Parser where
 
 -- ex5
 intOrUppercase :: Parser ()
-intOrUppercase = const () <$> posInt <|>
-                 const () <$> satisfy isUpper
+intOrUppercase = () <$ posInt <|>
+                 () <$ satisfy isUpper
