@@ -6,6 +6,7 @@ module HW11.SExpr where
 
 import HW10.AParser
 import Control.Applicative hiding ((*>))
+import Data.Char
 
 (*>) :: Applicative f => f a -> f b -> f b
 a *> b = pure (const id) <*> a <*> b
@@ -34,10 +35,10 @@ oneOrMore p = (:) <$> p <*> zeroOrMore p
 ------------------------------------------------------------
 
 spaces :: Parser String
-spaces = undefined
+spaces = zeroOrMore $ satisfy isSpace
 
-ident :: Parser String
-ident = undefined
+ident :: Parser Ident
+ident = (:) <$> satisfy isAlpha <*> zeroOrMore (satisfy isAlphaNum)
 
 ------------------------------------------------------------
 --  3. Parsing S-expressions
@@ -56,3 +57,15 @@ data Atom = N Integer | I Ident
 data SExpr = A Atom
            | Comb [SExpr]
   deriving Show
+
+atom :: Parser Atom
+atom = N <$> posInt <|> I <$> ident
+
+ignSpaces :: Parser a -> Parser a
+ignSpaces p = spaces *> p <* spaces
+
+parseSExpr :: Parser SExpr
+parseSExpr = A <$> ignSpaces atom <|>
+             Comb <$> spaces *> char '(' *>
+                      ignSpaces (oneOrMore parseSExpr)
+                      <* char ')' <* spaces
