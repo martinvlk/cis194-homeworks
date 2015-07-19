@@ -4,11 +4,11 @@
    due Monday, 1 April
 -}
 
-module HW10.AParser where
+module HW10.AParser (Parser, runParser, satisfy, char, posInt, first) where
 
-import           Control.Applicative
+import Control.Applicative
 
-import           Data.Char
+import Data.Char
 
 -- A parser for a value of type a is a function which takes a String
 -- represnting the input to be parsed, and succeeds or fails; if it

@@ -5,17 +5,29 @@
 module HW11.SExpr where
 
 import HW10.AParser
-import Control.Applicative
+import Control.Applicative hiding ((*>))
+
+(*>) :: Applicative f => f a -> f b -> f b
+a *> b = pure (const id) <*> a <*> b
+
+mapA :: Applicative f => (a -> f b) -> [a] -> f [b]
+mapA f = foldr (liftA2 (:) . f) $ pure []
+
+sequenceA  :: Applicative f => [f a] -> f [a]
+sequenceA = mapA id
+
+replicateA :: Applicative f => Int -> f a -> f [a]
+replicateA n a = pure (replicate n) <*> a
 
 ------------------------------------------------------------
 --  1. Parsing repetitions
 ------------------------------------------------------------
 
 zeroOrMore :: Parser a -> Parser [a]
-zeroOrMore p = undefined
+zeroOrMore p = oneOrMore p <|> pure []
 
 oneOrMore :: Parser a -> Parser [a]
-oneOrMore p = undefined
+oneOrMore p = (:) <$> p <*> zeroOrMore p
 
 ------------------------------------------------------------
 --  2. Utilities
