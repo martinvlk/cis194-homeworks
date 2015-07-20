@@ -2,7 +2,7 @@
 
 module Risk where
 
-import Control.Monad.Random (Random(..), StdGen, Rand, getRandom, randomR)
+import Control.Monad.Random (Random(..), StdGen, Rand, getRandom, randomR, evalRandIO)
 import Control.Monad (replicateM)
 import Data.List (sortBy)
 
@@ -62,3 +62,6 @@ successProb :: Battlefield -> Rand StdGen Double
 successProb bf = return . (/fromIntegral sampleSize) . sum . map aWin
                  =<< replicateM sampleSize (invade bf)
   where aWin (Battlefield atts defs) = if atts > defs then 1 else 0
+
+main :: IO ()
+main = print =<< evalRandIO (successProb $ Battlefield 300 300)
