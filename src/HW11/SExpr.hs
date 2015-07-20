@@ -66,6 +66,5 @@ ignSpaces p = spaces *> p <* spaces
 
 parseSExpr :: Parser SExpr
 parseSExpr = A <$> ignSpaces atom <|>
-             Comb <$> spaces *> char '(' *>
-                      ignSpaces (oneOrMore parseSExpr)
-                      <* char ')' <* spaces
+             Comb <$> ignSpaces (char '(') *>
+             ignSpaces (oneOrMore parseSExpr) <* ignSpaces (char ')')

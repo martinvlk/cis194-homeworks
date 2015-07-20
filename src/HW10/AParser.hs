@@ -66,15 +66,15 @@ first :: (a -> b) -> (a,c) -> (b,c)
 first f (a, c) = (f a, c)
 
 instance Functor Parser where
-  fmap f (Parser rp) = Parser $ fmap (first f) . rp
+  fmap f p = Parser $ fmap (first f) . runParser p
 
 -- ex2
 
 instance Applicative Parser where
   pure a = Parser $ Just . (a,)
-  (Parser rp1) <*> (Parser rp2) = Parser $ \s -> case rp1 s of
+  p1 <*> p2 = Parser $ \s -> case runParser p1 s of
     Nothing -> Nothing
-    Just (f, rest) -> fmap (first f) . rp2 $ rest
+    Just (f, rest) -> fmap (first f) . runParser p2 $ rest
 
 -- ex3
 
@@ -90,7 +90,7 @@ intPair = (\n1 n2 -> [n1, n2]) <$> posInt <* char ' ' <*> posInt
 -- ex4
 instance Alternative Parser where
   empty = Parser $ const Nothing
-  (Parser rp1) <|> (Parser rp2) = Parser $ \s -> rp1 s <|> rp2 s
+  p1 <|> p2 = Parser $ \s -> runParser p1 s <|> runParser p2 s
 
 -- ex5
 intOrUppercase :: Parser ()

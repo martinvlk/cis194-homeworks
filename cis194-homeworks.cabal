@@ -22,12 +22,12 @@ executable cis194-homeworks
                        HW04.HW4 HW05.ExprT HW05.Parser HW05.Calc HW05.StackVM
                        HW06.Fibonacci HW07.Buffer HW07.Editor HW07.Sized
                        HW07.StringBufEditor HW07.StringBuffer HW08.Employee
-                       HW08.Party HW10.AParser HW11.SExpr
+                       HW08.Party HW10.AParser HW11.SExpr HW12.Risk
   -- other-extensions:    
-  build-depends:       base, containers, parsec, mtl
+  build-depends:       base, containers, parsec, mtl, MonadRandom
   hs-source-dirs:      src
   default-language:    Haskell2010
-  ghc-options:     -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
+  ghc-options:         -Wall -fno-warn-type-defaults -fno-warn-unused-do-bind
 --                   -rtsopts
 
 test-suite HW07
