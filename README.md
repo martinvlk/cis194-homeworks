@@ -1,4 +1,5 @@
-# Solutions to assignment exercises from the "CIS 194: Introduction to Haskell (Spring 2013)" course
+"CIS 194: Introduction to Haskell (Spring 2013)" course
+Solutions to exercises.
 
 My solutions to the assignments from the
 ["Introduction to Haskell" lecture](https://www.seas.upenn.edu/~cis194/spring13)

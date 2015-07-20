@@ -41,12 +41,12 @@ defMaxForce = 2
 
 battle :: Battlefield -> Rand StdGen Battlefield
 battle (Battlefield atts defs) = return . uncurry Battlefield =<< fight
-  where  aForce = min attMaxForce (atts - attMinLeaveBehind)
-         dForce = min defMaxForce defs
-         dice n = return . sortBy (flip compare) =<< replicateM n die
-         fight = return . foldr move (atts, defs) . uncurry zip . (\[a, b]->(a,b))
+   where fight = return . foldr move (atts, defs) . uncurry zip . (\[a, b]->(a,b))
                  =<< sequence [dice aForce, dice dForce]
          move (aB, dB) (a, d) = if aB > dB then (a, pred d) else (pred a, d)
+         dice n = return . sortBy (flip compare) =<< replicateM n die
+         aForce = min attMaxForce (atts - attMinLeaveBehind)
+         dForce = min defMaxForce defs
 
 -- ex3
 
