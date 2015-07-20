@@ -48,7 +48,17 @@ battle (Battlefield atts defs) = return . uncurry Battlefield =<< fight
                  =<< sequence [dice aForce, dice dForce]
          move (aB, dB) (a, d) = if aB > dB then (a, pred d) else (pred a, d)
 
+-- ex3
+
 invade :: Battlefield -> Rand StdGen Battlefield
 invade bf@(Battlefield atts defs) | atts >= 2 && defs > 0 = invade =<< battle bf
                                   | otherwise = return bf
 
+-- ex4
+sampleSize :: Int
+sampleSize = 1000
+
+successProb :: Battlefield -> Rand StdGen Double
+successProb bf = return . (/fromIntegral sampleSize) . sum . map aWin
+                 =<< replicateM sampleSize (invade bf)
+  where aWin (Battlefield atts defs) = if atts > defs then 1 else 0
